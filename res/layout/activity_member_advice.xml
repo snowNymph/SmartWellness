@@ -1,0 +1,213 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:background="#FFDCDCDD"
+    tools:context=".MemberMission" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+	        <Button 
+	            android:id="@+id/advice_back_btn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/back"
+				android:paddingLeft="20dp"
+	            android:text="@string/Btn_back"/>
+        </LinearLayout>
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="center">
+	        <TextView
+	            android:id="@+id/advice_title_text"
+	            android:layout_height="match_parent"
+	            android:layout_width="wrap_content"
+	            android:layout_marginRight="250dp"
+	            android:text="this is title"
+	            android:gravity="center"
+	            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        </LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_height="fill_parent"
+        android:layout_width="match_parent">
+	    <LinearLayout
+	        android:layout_weight="1"
+	        android:layout_height="match_parent" 
+	        android:layout_width="0dp"
+	        android:orientation="vertical">
+	        
+	        <LinearLayout
+	            android:layout_weight="7"
+	            android:layout_width="fill_parent"
+	            android:layout_height="0dp" 
+	            android:layout_margin="10dp"
+	            android:orientation="vertical"
+	            android:background="#FFA5D294">
+	            
+	            <LinearLayout
+		            android:layout_weight="8"
+		            android:layout_width="fill_parent"
+		            android:layout_height="0dp" 
+		            android:orientation="vertical">
+		            <TextView
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:textColor="#FFFFFFFF"
+		                android:background="#FF7FC270"
+		               	android:textSize="20sp"
+		                android:padding="5dp"
+		                android:text="건강 기록"
+		                />
+		            <ListView
+		                android:id="@+id/advice_numpicker_listview" 
+		                android:layout_width="match_parent"
+		                android:layout_height="match_parent">
+		                
+		            </ListView>
+		        </LinearLayout>
+		        <RelativeLayout
+		            android:layout_width="fill_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            android:layout_gravity="right"
+		            android:layout_margin="5dp">
+			        <Button 
+		               android:id="@+id/advice_num_btn"
+		               android:layout_height="wrap_content"
+		               android:layout_width="wrap_content"
+		               android:layout_alignParentRight="true"
+		               android:background="#FF17489D" 
+		               android:text="저장" />
+			    </RelativeLayout>
+	        </LinearLayout>
+	        
+	        <LinearLayout
+	            android:layout_weight="3"
+	            android:layout_width="fill_parent"
+	            android:layout_height="0dp" 
+	            android:orientation="vertical"
+	            android:layout_margin="10dp"
+	            android:background="#FFA5D294">
+				<TextView
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:textColor="#FFFFFFFF"
+	                android:background="#FF7FC270"
+	               	android:textSize="20sp"
+	                android:padding="5dp"
+	                android:text="건강 기록"
+	                />
+	            <EditText
+	                android:id="@+id/advice_edit_comment"
+	                android:layout_width="match_parent"
+	                android:layout_height="0dp"
+	                android:layout_weight="4"
+	                android:ems="10"
+	                android:inputType="textMultiLine" >
+	                <requestFocus />
+	            </EditText>
+	            
+		       	<Button 
+		            android:id="@+id/advice_comment_submit"
+		            android:layout_height="0dp"
+	                android:layout_weight="1"
+		            android:layout_width="match_parent" 
+		            android:background="#FF17489D"
+		            android:layout_margin="5dp"
+		            android:text="저장"/>
+      	    </LinearLayout>
+  	    </LinearLayout>
+    
+    
+	    <LinearLayout
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:background="#FFA5D294"
+	        android:layout_margin="10dp"
+	        android:orientation="vertical">
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:text="운동 기록"
+	            android:textColor="#FFFFFFFF"
+	            android:layout_gravity="center"
+	            android:background="#FF7FC270"
+	            android:textAppearance="?android:attr/textAppearanceLarge"/>
+	        <LinearLayout 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:layout_margin="5dp"
+	            android:orientation="horizontal">
+	            <TextView
+	                android:layout_height="wrap_content"
+	                android:layout_width="0dp"
+	                android:layout_weight="1"
+	                android:gravity ="center"
+	                android:text="체중" />
+	            <EditText 
+	                android:background="#FFFFFFFF"
+	                android:id="@+id/advice_edit_weight"
+	                android:layout_width="0dp"
+	                android:layout_weight="1"
+	                android:layout_height="wrap_content" />
+	            <TextView
+	                android:layout_height="wrap_content"
+	                android:layout_width="0dp"
+	                android:layout_weight="3"
+	                android:gravity ="left"
+	                android:text="kg" />
+        	</LinearLayout>
+	        <LinearLayout 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:layout_margin="5dp"
+	            android:orientation="horizontal">
+	            <TextView
+	                android:layout_height="wrap_content"
+	                android:layout_width="0dp"
+	                android:layout_weight="1"
+	                android:gravity ="center"
+	                android:text="혈압" />
+	            <EditText 
+	                android:background="#FFFFFFFF"
+	                android:id="@+id/advice_edit_pressure"
+	                android:layout_width="0dp"
+	                android:layout_weight="1"
+	                android:layout_height="wrap_content" />
+	            <TextView
+	                android:layout_height="wrap_content"
+	                android:layout_width="0dp"
+	                android:layout_weight="3"
+	                android:gravity ="left"
+	                android:text="mmHg" />
+	            
+	        </LinearLayout>
+	        <RelativeLayout
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent">
+	            <Button 
+	                android:id="@+id/advice_vital_submit"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:background="#FF17489D"
+	                android:layout_margin="5dp"
+	                android:text="저장" />
+	        </RelativeLayout>
+    	</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

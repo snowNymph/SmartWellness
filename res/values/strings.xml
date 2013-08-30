@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WellFitSquare</string>
+    <string name="title_member_detail">Member Detail</string>
+    <string name="title_activity_mission">Mission</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">test!</string>
+    <string name="title_activity_member_diet">MemberDiet</string>
+    <string name="title_activity_member_advice">MemberAdvice</string>
+    <string name="Btn_back">Back</string>
+    <string name="Btn_submit">Submit</string>
+    <string name="Btn_title_add">Add</string>
+    <string name="title_activity_member_add">MemberAdd</string>
+    <string name="title_activity_calendar">Calendar</string>
+    <string name="title_activity_calendarDialog">Dialog</string>
+    <string name="title_activity_diet_dialog">DietDialog</string>
+    <string name="title_activity_mission_add">MissionAdd</string>
+    <string name="title_activity_mission_send">MissionSend</string>
+    <string name="title_activity_trainer_setting">TrainerSetting</string>
+
+</resources>

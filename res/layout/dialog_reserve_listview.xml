@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="5dp"
+    android:orientation="horizontal" >
+    <LinearLayout
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+	    <TextView 
+	        android:id="@+id/reserve_name"
+	        android:layout_height="0dp"
+	        android:layout_width="fill_parent"
+	        android:layout_weight="1"/>
+		<TextView 
+		    android:id="@+id/reserve_start_date"
+		    android:layout_height="0dp"
+		    android:layout_width="fill_parent"
+	        android:layout_weight="1"/>
+		<TextView 
+		    android:id="@+id/reserve_end_date"
+		    android:layout_height="0dp"
+		    android:layout_width="fill_parent"
+	        android:layout_weight="1" />
+	</LinearLayout>
+	<Button 
+	    android:id="@+id/reserve_submit"
+	    android:layout_height="fill_parent"
+	    android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="#FF21AB38"
+        android:layout_marginLeft="3dp"
+	    android:text="add"/>
+</LinearLayout>

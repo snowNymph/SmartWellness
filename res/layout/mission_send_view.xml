@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:background="#FFFFFFFF"
+    android:layout_height="150dp"
+    android:orientation="vertical" >
+	<LinearLayout 
+	    android:layout_width ="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="2"
+	    android:orientation="horizontal"
+	    android:background="#FFEEEFEF">
+	    	<TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="fill_parent"/>
+	    	    
+		    <EditText
+		        android:id="@+id/mission_send_number"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        android:background="#FF888889"
+		        android:layout_marginTop="30dp"
+		        android:layout_marginBottom="30dp"
+		        android:layout_height="fill_parent"
+		        android:inputType="number"/>
+		    <TextView
+		        android:layout_width="0dp"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        android:text="회"/>
+	    	<TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="fill_parent"/>
+	        <EditText
+	            android:id="@+id/mission_send_set"
+	            android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_marginTop="30dp"
+		        android:layout_marginBottom="30dp"
+		        android:background="#FF888889"
+		        android:gravity="center"
+	            android:layout_height="fill_parent"
+	            android:inputType="number" >
+	        </EditText>
+
+		    <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        android:layout_height="fill_parent"
+		        android:text="세트"/>
+	    	<TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="fill_parent"/>
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width ="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:orientation="horizontal">
+	    <Button 
+	        android:id="@+id/mission_send_add"
+		    android:layout_width ="0dp"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="1"
+		    android:layout_margin="5dp"
+		    android:background="#FF7FC270"
+		    android:gravity="center"
+		    android:text="등록"/>
+	    
+	    <Button 
+	        android:id="@+id/mission_send_cancel"
+		    android:layout_width ="0dp"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="1"
+		    android:gravity="center"
+		    android:layout_margin="5dp"
+		    android:background="#FF7FC270"
+		    android:text="취소"/>
+	</LinearLayout>
+</LinearLayout>

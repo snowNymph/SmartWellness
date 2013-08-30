@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="150dp"
+    tools:context=".DietDialog" 
+    android:orientation="vertical">
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFDCDCDD"
+        android:textSize="20sp"
+        android:text="섭취량"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFDCDCDD"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+        <TextView
+            android:id="@+id/diet_kind_textview"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:background="#FF888889"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center"/>
+        <EditText 
+            android:id="@+id/diet_edit_amount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:background="#FF888889"
+            android:layout_height="fill_parent"/>
+        <Spinner 
+            android:id="@+id/diet_spinner"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:background="#FF888889"
+            android:layout_height="fill_parent" />
+	</LinearLayout>
+	
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <Button 
+            android:id="@+id/diet_ok_btn"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:background="#FF7FC270"
+            android:text="등록"/>
+		<Button 
+            android:id="@+id/diet_cancel_btn"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:background="#FF7FC270"
+            android:text="취소"/>
+    </LinearLayout>
+    
+</LinearLayout>

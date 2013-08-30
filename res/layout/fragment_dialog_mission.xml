@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="30dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Exercise Name"/>
+        <EditText 
+            android:id="@+id/exercise_name"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"/>
+    </LinearLayout>
+
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Exercise Kind"/>
+        <EditText 
+            android:id="@+id/exercise_kind"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Exercise Tool"/>
+        <EditText 
+            android:id="@+id/exercise_tool"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"/>
+    </LinearLayout>
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Exercise Set"/>
+        <EditText 
+            android:id="@+id/exercise_set"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:inputType="number"/>
+    </LinearLayout>
+    
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Exercise Number"/>
+        <EditText 
+            android:id="@+id/exercise_number"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:inputType="number"/>
+    </LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"
+	   	android:layout_marginRight="10dp">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Exercise Description"/>
+        <EditText
+            android:id="@+id/exercise_description"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"/>
+	</LinearLayout>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    <Button
+	        android:id="@+id/exercise_ok"
+	        android:layout_height="match_parent"
+	        android:layout_width="wrap_content"
+	        android:text="OK"/>
+		<Button
+		    android:id="@+id/exercise_cancel"
+	        android:layout_height="match_parent"
+	        android:layout_width="wrap_content"
+	        android:text="Cancel"/>
+	</LinearLayout>
+</LinearLayout>

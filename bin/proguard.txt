@@ -1,0 +1,43 @@
+# view AndroidManifest.xml #generated:71
+-keep class com.example.smartwellness.DietDialog { <init>(...); }
+
+# view AndroidManifest.xml #generated:37
+-keep class com.example.smartwellness.LoginActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:59
+-keep class com.example.smartwellness.MemberAdd { <init>(...); }
+
+# view AndroidManifest.xml #generated:55
+-keep class com.example.smartwellness.MemberAdvice { <init>(...); }
+
+# view AndroidManifest.xml #generated:29
+-keep class com.example.smartwellness.MemberDetailActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:51
+-keep class com.example.smartwellness.MemberDiet { <init>(...); }
+
+# view AndroidManifest.xml #generated:22
+-keep class com.example.smartwellness.MemberListActivity { <init>(...); }
+
+# view res/layout/activity_member_list.xml #generated:1
+# view res/layout/activity_member_twopane.xml #generated:24
+-keep class com.example.smartwellness.MemberListFragment { <init>(...); }
+
+# view AndroidManifest.xml #generated:47
+-keep class com.example.smartwellness.MemberMission { <init>(...); }
+
+# view AndroidManifest.xml #generated:75
+-keep class com.example.smartwellness.MissionAdd { <init>(...); }
+
+# view AndroidManifest.xml #generated:80
+-keep class com.example.smartwellness.MissionSend { <init>(...); }
+
+# view AndroidManifest.xml #generated:85
+-keep class com.example.smartwellness.TrainerSetting { <init>(...); }
+
+# view AndroidManifest.xml #generated:63
+-keep class customgooglecalendar.RockCalendar { <init>(...); }
+
+# view AndroidManifest.xml #generated:67
+-keep class customgooglecalendar.SelectCalendarDialog { <init>(...); }
+

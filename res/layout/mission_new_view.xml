@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="600dp"
+    android:background="#FFDCDCDD"
+    android:layout_height="250dp"
+    android:orientation="vertical" >
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <Spinner
+		    android:id="@+id/mission_new_kind"
+		    android:layout_width="0dp"
+		    android:layout_weight="1"
+		    android:layout_height="fill_parent" />
+        <EditText
+            android:id="@+id/mission_new_name"
+		    android:layout_width="0dp"
+		    android:background="#FFEEEFEF"
+		    android:hint="운동 이름"
+		    android:layout_weight="1"
+		    android:layout_height="fill_parent"/> 
+        <Spinner
+		    android:id="@+id/mission_new_tool"
+		    android:layout_width="0dp"
+		    android:layout_weight="1"
+		    android:layout_height="fill_parent" />
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:padding = "5dp"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/mission_new_desc"
+		    android:layout_width="fill_parent"
+		    android:inputType="textMultiLine"
+		    android:background="#FFEEEFEF"
+		    android:hint="운동설명
+		    
+		    
+		    "
+		    android:layout_height="fill_parent"/> 
+            
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        
+	    	<TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="wrap_content"/>
+	    	    
+		    <EditText
+		        android:id="@+id/mission_new_number"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		    	android:background="#FF888889"
+		    	android:textColor="#FFFFFFFF"
+		        android:layout_height="wrap_content"
+		        android:inputType="number"/>
+		    <TextView
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:text="회"/>
+	    	<TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="wrap_content"/>
+	        <EditText
+	            android:id="@+id/mission_new_set"
+	            android:layout_width="0dp"
+		        android:layout_weight="1"
+		    	android:background="#FF888889"
+		    	android:textColor="#FFFFFFFF"
+	            android:layout_height="wrap_content"
+	            android:inputType="number" >
+	        </EditText>
+
+		    <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="wrap_content"
+		        android:text="세트"/>
+	    	<TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/mission_new_add"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:background="#FF7FC270"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="등록"
+            />
+        <Button
+            android:id="@+id/mission_new_cancel"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:background="#FF7FC270"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="취소"
+            />
+        <Button
+            android:id="@+id/mission_new_save"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:background="#FF7FC270"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="저장"
+            />
+    </LinearLayout>
+</LinearLayout>
