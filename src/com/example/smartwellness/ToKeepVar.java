@@ -8,6 +8,8 @@ public class ToKeepVar{
 	private String data;
 	private String json;
 	private boolean mStatus;
+	private int mDeviceType;
+	
 	public String getData()
 	{
 		return data;
@@ -45,5 +47,14 @@ public class ToKeepVar{
 	public List<HashMap<String,String>> getJson()
 	{
 		return JsonRequestPost.jsonParse(Arrays.asList("uid","name"), json);
+	}
+
+	public void setType(int deviceType)
+	{
+		this.mDeviceType = deviceType;
+	}
+	public int getType() {
+		// TODO Auto-generated method stub
+		return mDeviceType;
 	}
 }

@@ -170,6 +170,11 @@
 	                android:layout_weight="3"
 	                android:gravity ="left"
 	                android:text="kg" />
+	            <Button 
+	                android:id="@+id/weight_measure"
+	                android:layout_height="wrap_content"
+	                android:layout_width="wrap_content"
+	                android:text="측정" />
         	</LinearLayout>
 	        <LinearLayout 
 	            android:layout_height="wrap_content"
@@ -194,7 +199,11 @@
 	                android:layout_weight="3"
 	                android:gravity ="left"
 	                android:text="mmHg" />
-	            
+         	    <Button 
+         	        android:id="@+id/pressure_measure"
+	                android:layout_height="wrap_content"
+	                android:layout_width="wrap_content"
+	                android:text="측정" />
 	        </LinearLayout>
 	        <RelativeLayout
 	            android:layout_height="wrap_content"

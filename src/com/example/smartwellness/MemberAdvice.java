@@ -5,13 +5,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +37,7 @@ public class MemberAdvice extends Fragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.e("create", "advice create");
 		super.onCreate(savedInstanceState);
 		getArguments().containsKey(ARG_ITEM_ID);
 		numData = new ArrayList<HashMap<String,String>>();
@@ -40,6 +47,7 @@ public class MemberAdvice extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_member_advice, container, false);
+		Log.e("create View", "advice create View");
 		qwer = new HashMap<String,String>();
 		item1 = (EditText)rootView.findViewById(R.id.advice_edit_weight);
 		item2 = (EditText)rootView.findViewById(R.id.advice_edit_pressure);
@@ -82,7 +90,64 @@ public class MemberAdvice extends Fragment {
 				(new AdviceNumInsert()).execute();
 			}
 		});
+		
+		Button measure_btn = (Button)rootView.findViewById(R.id.weight_measure);
+		measure_btn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ToKeepVar.getInstance().setType(ConstantVar.BLOOD_PRESSURE);
+				
+				startActivity(new Intent(getActivity(), bluetoothHDP.BluetoothHDPActivity.class));
+				getPrefData();
+			}
+		});
+		
+		Button measure_btn2 = (Button)rootView.findViewById(R.id.pressure_measure);
+		measure_btn2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ToKeepVar.getInstance().setType(ConstantVar.BODY_WEIGHT);
+			}
+		});
+		
 		return rootView;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		Log.e("resume", "advice resume");
+		EditText weight_data = (EditText)getActivity().findViewById(R.id.advice_edit_weight);
+		weight_data.setText(getPrefData());
+
+		SharedPreferences pref = getActivity().getSharedPreferences("bluetooth_measure_data", FragmentActivity.MODE_PRIVATE );
+		SharedPreferences.Editor editor = pref.edit();
+		editor.remove("data");
+		editor.commit();
+	}
+	
+	public String getPrefData(){
+		SharedPreferences pref = getActivity().getSharedPreferences("bluetooth_measure_data", FragmentActivity.MODE_PRIVATE );
+		String prefData = pref.getString("data", "");
+		Log.e("prefData", "prefData" + prefData);
+		
+		if(prefData == "") return null;
+		
+		if(ToKeepVar.getInstance().getType() == ConstantVar.BODY_WEIGHT)
+			return prefData;
+		else{
+			String[] tmpData = prefData.split("[a-z:]");
+			prefData = "";
+			for(int i =0, cnt =0; i<tmpData.length && cnt != 2; i++){
+				if(!tmpData[i].isEmpty()){
+					prefData += tmpData[i].trim();
+					cnt++;
+					if(cnt == 1) prefData += '/';
+				}
+			}
+			return prefData;
+		}
 	}
 	
 	public class AdviceVitalInsert extends AsyncTask<String, Void, Boolean> {
@@ -114,7 +179,6 @@ public class MemberAdvice extends Fragment {
 				item1.setText("");
 				item2.setText("");
 			}
-				
 		}
 	}
 	

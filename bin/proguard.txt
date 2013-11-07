@@ -1,43 +1,49 @@
-# view AndroidManifest.xml #generated:71
+# view AndroidManifest.xml #generated:90
+-keep class bluetoothHDP.BluetoothHDPActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:94
+-keep class bluetoothHDP.BluetoothHDPService { <init>(...); }
+
+# view AndroidManifest.xml #generated:72
 -keep class com.example.smartwellness.DietDialog { <init>(...); }
 
-# view AndroidManifest.xml #generated:37
+# view AndroidManifest.xml #generated:38
 -keep class com.example.smartwellness.LoginActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:59
+# view AndroidManifest.xml #generated:60
 -keep class com.example.smartwellness.MemberAdd { <init>(...); }
 
-# view AndroidManifest.xml #generated:55
+# view AndroidManifest.xml #generated:56
 -keep class com.example.smartwellness.MemberAdvice { <init>(...); }
 
-# view AndroidManifest.xml #generated:29
+# view AndroidManifest.xml #generated:30
 -keep class com.example.smartwellness.MemberDetailActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:51
+# view AndroidManifest.xml #generated:52
 -keep class com.example.smartwellness.MemberDiet { <init>(...); }
 
-# view AndroidManifest.xml #generated:22
+# view AndroidManifest.xml #generated:23
 -keep class com.example.smartwellness.MemberListActivity { <init>(...); }
 
 # view res/layout/activity_member_list.xml #generated:1
 # view res/layout/activity_member_twopane.xml #generated:24
 -keep class com.example.smartwellness.MemberListFragment { <init>(...); }
 
-# view AndroidManifest.xml #generated:47
+# view AndroidManifest.xml #generated:48
 -keep class com.example.smartwellness.MemberMission { <init>(...); }
 
-# view AndroidManifest.xml #generated:75
+# view AndroidManifest.xml #generated:76
 -keep class com.example.smartwellness.MissionAdd { <init>(...); }
 
-# view AndroidManifest.xml #generated:80
+# view AndroidManifest.xml #generated:81
 -keep class com.example.smartwellness.MissionSend { <init>(...); }
 
-# view AndroidManifest.xml #generated:85
+# view AndroidManifest.xml #generated:86
 -keep class com.example.smartwellness.TrainerSetting { <init>(...); }
 
-# view AndroidManifest.xml #generated:63
+# view AndroidManifest.xml #generated:64
 -keep class customgooglecalendar.RockCalendar { <init>(...); }
 
-# view AndroidManifest.xml #generated:67
+# view AndroidManifest.xml #generated:68
 -keep class customgooglecalendar.SelectCalendarDialog { <init>(...); }
 

@@ -231,7 +231,7 @@ public class LoginActivity extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 
-			if (input.equals("fail")) {
+			if (input.isEmpty() || input.equals("fail") || input == null) {
 				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			} else {
