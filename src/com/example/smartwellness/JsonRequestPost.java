@@ -1,5 +1,6 @@
 package com.example.smartwellness;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,7 +50,7 @@ public class JsonRequestPost {
 	        while(iter.hasNext())
 	        {
 	        	Map.Entry<String, String> e = iter.next();
-	        	nvp.add(new BasicNameValuePair(e.getKey(), e.getValue()));
+	        	nvp.add(new BasicNameValuePair(e.getKey(), URLEncoder.encode(e.getValue(), "UTF-8")));
 	        }
 	        request.setEntity(new UrlEncodedFormEntity(nvp));
 	        HttpResponse response2 = httpClient.execute(request);
