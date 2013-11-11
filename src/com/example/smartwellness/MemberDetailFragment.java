@@ -1,8 +1,12 @@
 package com.example.smartwellness;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -23,7 +28,9 @@ public class MemberDetailFragment extends Fragment {
 	private DummyContent.DummyItem mItem;
 
 	private String memberData;
-	
+
+    private ImageView memberImage;
+    private Bitmap bm;
 	public TabHost tabs;
 	public MemberDetailFragment() {
 	}
@@ -41,9 +48,21 @@ public class MemberDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_member_detail, container, false);
 		(new MemberDetail()).execute();
+        //(new GetMemberImage()).execute();
+
 		tabs = (TabHost)rootView.findViewById(android.R.id.tabhost);
 		setTab();
-		WebView vital_view = (WebView)rootView.findViewById(R.id.main_tab1_webview);
+
+        memberImage = (ImageView)rootView.findViewById(R.id.member_image);
+        try{
+            URL url = new URL(ConstantVar.URL + "member_image/six2.jpg");
+            bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            memberImage.setImageBitmap(bm);
+        }catch (IOException ex){
+
+        }
+
+        WebView vital_view = (WebView)rootView.findViewById(R.id.main_tab1_webview);
 		WebView exercise_view = (WebView)rootView.findViewById(R.id.main_tab2_webview);
 		WebSettings vital_settings = vital_view.getSettings();
 		vital_settings.setUseWideViewPort(true);
@@ -51,6 +70,7 @@ public class MemberDetailFragment extends Fragment {
 		WebSettings exercise_settings = exercise_view.getSettings();
 		exercise_settings.setUseWideViewPort(true);
 		exercise_settings.setJavaScriptEnabled(true);
+
 		vital_view.setWebViewClient(new WebViewClient(){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -120,12 +140,12 @@ public class MemberDetailFragment extends Fragment {
 		
 		ts = tabs.newTabSpec("vital");
 		ts.setContent(R.id.main_tab1_webview);
-		ts.setIndicator("°Ç°­");
+		ts.setIndicator("ï¿½Ç°ï¿½");
 		tabs.addTab(ts);
 
 		ts = tabs.newTabSpec("exercise");
 		ts.setContent(R.id.main_tab2_webview);
-		ts.setIndicator("¿îµ¿");
+		ts.setIndicator("ï¿½îµ¿");
 		tabs.addTab(ts);
 	}
 	
@@ -160,7 +180,7 @@ public class MemberDetailFragment extends Fragment {
 		if(input != null){
 			HashMap<String,String> parseRet = new HashMap<String,String>();
 			parseRet = JsonRequestPost.jsonParse(Arrays.asList("name","pt_cnt","age","sex","phone") , input).get(0);
-			/* last, pt, reserve ÇÊ¿ä*/
+			/* last, pt, reserve ï¿½Ê¿ï¿½*/
 			((TextView)getView().findViewById(R.id.member_name)).setText(parseRet.get("name"));
 			((TextView)getView().findViewById(R.id.member_pt_cnt)).setText(parseRet.get("pt_cnt"));
 			((TextView)getView().findViewById(R.id.member_phone)).setText(parseRet.get("phone"));
@@ -168,4 +188,20 @@ public class MemberDetailFragment extends Fragment {
 			((TextView)getView().findViewById(R.id.member_sex)).setText(parseRet.get("sex"));
 		}
 	}
+    /*
+    public class GetMemberImage extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            memberImage.setImageBitmap(bm);
+            super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+        }
+    }
+    */
 }
