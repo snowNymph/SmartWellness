@@ -1,15 +1,37 @@
 package com.example.smartwellness;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.RequestContent;
+
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +47,8 @@ import com.example.smartwellness.dummy.DummyContent;
 
 public class MemberDetailFragment extends Fragment {
 	public static final String ARG_ITEM_ID = "item_id";
+	public static final int CAMERA_REQUEST = 10;
+	public Uri capturedImageUri;
 	private DummyContent.DummyItem mItem;
 
 	private String memberData;
@@ -32,12 +56,14 @@ public class MemberDetailFragment extends Fragment {
     private ImageView memberImage;
     private Bitmap bm;
 	public TabHost tabs;
+	
 	public MemberDetailFragment() {
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		(new GetMemberImage()).execute();
 
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
 			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
@@ -48,19 +74,36 @@ public class MemberDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_member_detail, container, false);
 		(new MemberDetail()).execute();
-        //(new GetMemberImage()).execute();
 
 		tabs = (TabHost)rootView.findViewById(android.R.id.tabhost);
 		setTab();
 
         memberImage = (ImageView)rootView.findViewById(R.id.member_image);
-        try{
-            URL url = new URL(ConstantVar.URL + "member_image/six2.jpg");
-            bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            memberImage.setImageBitmap(bm);
-        }catch (IOException ex){
-
-        }
+        memberImage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {/*	
+				Calendar cal = Calendar.getInstance();
+				File file = new File(Environment.getExternalStorageDirectory(), (cal.getTimeInMillis() +".jpg"));
+				if(!file.exists()){
+					try{
+						file.createNewFile();
+					}catch(IOException e){
+						e.printStackTrace();
+					}
+				}else{
+					file.delete();
+					try{
+						file.createNewFile();
+					}catch(IOException e){
+						e.printStackTrace();
+					}
+				}
+		        capturedImageUri = Uri.fromFile(file);*/
+		        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		        //intent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
+		        startActivityForResult(intent, CAMERA_REQUEST);
+			}
+		});
 
         WebView vital_view = (WebView)rootView.findViewById(R.id.main_tab1_webview);
 		WebView exercise_view = (WebView)rootView.findViewById(R.id.main_tab2_webview);
@@ -132,6 +175,31 @@ public class MemberDetailFragment extends Fragment {
 
 		return rootView;
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+	    InputStream inputStream = null;
+	    if ( (requestCode == CAMERA_REQUEST) && resultCode == getActivity().RESULT_OK) {
+	        capturedImageUri = data.getData();
+	        try {
+	            inputStream = getActivity().getContentResolver().openInputStream(capturedImageUri);
+	            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+	            memberImage.setImageBitmap(bitmap);
+	            String[] uriParams = new String[10];
+	            uriParams[0] = capturedImageUri.toString();
+	            (new doUploadImage()).execute(uriParams);
+	        } catch (NullPointerException e) {
+	            e.printStackTrace();
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        memberImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+	        memberImage.setAdjustViewBounds(true);
+	    }
+	}
 	
 	public void setTab()
 	{
@@ -188,20 +256,66 @@ public class MemberDetailFragment extends Fragment {
 			((TextView)getView().findViewById(R.id.member_sex)).setText(parseRet.get("sex"));
 		}
 	}
-    /*
-    public class GetMemberImage extends AsyncTask<Void, Void, Void>{
+    
+    public class GetMemberImage extends AsyncTask<Void, Void, Boolean>{
         @Override
-        protected Void doInBackground(Void... params) {
-
-
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        protected Boolean doInBackground(Void... params) {
+            try{
+                URL url = new URL(ConstantVar.URL + "member_image/" + getArguments().getString(ARG_ITEM_ID) + ".jpg");
+                bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                if(bm != null) memberImage.setImageBitmap(bm);
+                
+                return true;
+            }catch (IOException ex){
+            	return false;
+            }
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            memberImage.setImageBitmap(bm);
-            super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+        protected void onPostExecute(Boolean flag) {
+            super.onPostExecute(flag);
+            
+            
         }
     }
-    */
+    
+
+	public class doUploadImage extends AsyncTask<String, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(String... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost postRequest = new HttpPost("http://61.43.139.69/image.php");
+
+                MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
+                reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                reqEntity.addPart("uploadedfile", new FileBody(new File(params[0])));
+                reqEntity.setCharset(Charset.forName("UTF-8"));
+
+                postRequest.setEntity(reqEntity.build());
+
+                HttpResponse response = httpClient.execute(postRequest);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                String sResponse;
+                StringBuilder s = new StringBuilder();
+
+                while ((sResponse = reader.readLine()) != null) {
+                    s = s.append(sResponse);
+                }
+                Log.e("error", s.toString());
+                System.out.println("Response: " + s);
+                httpClient.getConnectionManager().shutdown();
+            } catch (Exception e) {
+                Log.e(e.getClass().getName(), e.getMessage());
+            }
+	        return null;
+	    }
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+		}
+	}
 }

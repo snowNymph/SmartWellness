@@ -302,7 +302,6 @@ public class MemberDiet extends Fragment {
 				}
 			
 			}
-				
 		}
 	}
 	

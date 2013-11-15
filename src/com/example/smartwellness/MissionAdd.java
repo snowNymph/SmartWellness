@@ -103,6 +103,7 @@ public class MissionAdd extends Activity{
 			finish();
 		}
 	}
+	
 	boolean setReturn(){
 		name = Name.getText().toString();
 		desc = Desc.getText().toString();
