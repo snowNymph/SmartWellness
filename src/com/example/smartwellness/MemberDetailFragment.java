@@ -21,9 +21,13 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.RequestContent;
 
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,8 +57,8 @@ public class MemberDetailFragment extends Fragment {
 
 	private String memberData;
 
+	public Bitmap bm;
     private ImageView memberImage;
-    private Bitmap bm;
 	public TabHost tabs;
 	
 	public MemberDetailFragment() {
@@ -63,7 +67,6 @@ public class MemberDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		(new GetMemberImage()).execute();
 
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
 			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
@@ -74,6 +77,7 @@ public class MemberDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_member_detail, container, false);
 		(new MemberDetail()).execute();
+		(new GetMemberImage()).execute();
 
 		tabs = (TabHost)rootView.findViewById(android.R.id.tabhost);
 		setTab();
@@ -175,7 +179,18 @@ public class MemberDetailFragment extends Fragment {
 
 		return rootView;
 	}
-
+	
+	public String getRealPathFromURI(Uri contentURI) {
+	    Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
+	    if (cursor == null) { // Source is Dropbox or other similar local file path
+	        return contentURI.getPath();
+	    } else { 
+	        cursor.moveToFirst(); 
+	        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
+	        return cursor.getString(idx); 
+	    }
+	}
+    
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -187,7 +202,11 @@ public class MemberDetailFragment extends Fragment {
 	            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 	            memberImage.setImageBitmap(bitmap);
 	            String[] uriParams = new String[10];
-	            uriParams[0] = capturedImageUri.toString();
+	            uriParams[0] = getRealPathFromURI(capturedImageUri);
+	            //File f = new File();
+	            
+	            
+	            
 	            (new doUploadImage()).execute(uriParams);
 	        } catch (NullPointerException e) {
 	            e.printStackTrace();
@@ -239,21 +258,16 @@ public class MemberDetailFragment extends Fragment {
 		
 		@Override
 		protected void onPostExecute(final String input) {
-			taskFunc(input);
-		}
-	}
-	
-	public void taskFunc(String input)
-	{
-		if(input != null){
-			HashMap<String,String> parseRet = new HashMap<String,String>();
-			parseRet = JsonRequestPost.jsonParse(Arrays.asList("name","pt_cnt","age","sex","phone") , input).get(0);
-			/* last, pt, reserve �ʿ�*/
-			((TextView)getView().findViewById(R.id.member_name)).setText(parseRet.get("name"));
-			((TextView)getView().findViewById(R.id.member_pt_cnt)).setText(parseRet.get("pt_cnt"));
-			((TextView)getView().findViewById(R.id.member_phone)).setText(parseRet.get("phone"));
-			((TextView)getView().findViewById(R.id.member_age)).setText(parseRet.get("age"));
-			((TextView)getView().findViewById(R.id.member_sex)).setText(parseRet.get("sex"));
+			if(input != null){
+				HashMap<String,String> parseRet = new HashMap<String,String>();
+				parseRet = JsonRequestPost.jsonParse(Arrays.asList("name","pt_cnt","age","sex","phone") , input).get(0);
+				/* last, pt, reserve �ʿ�*/
+				((TextView)getView().findViewById(R.id.member_name)).setText(parseRet.get("name"));
+				((TextView)getView().findViewById(R.id.member_pt_cnt)).setText(parseRet.get("pt_cnt"));
+				((TextView)getView().findViewById(R.id.member_phone)).setText(parseRet.get("phone"));
+				((TextView)getView().findViewById(R.id.member_age)).setText(parseRet.get("age"));
+				((TextView)getView().findViewById(R.id.member_sex)).setText(parseRet.get("sex"));
+			}
 		}
 	}
     
@@ -262,24 +276,20 @@ public class MemberDetailFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             try{
                 URL url = new URL(ConstantVar.URL + "member_image/" + getArguments().getString(ARG_ITEM_ID) + ".jpg");
-                bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                if(bm != null) memberImage.setImageBitmap(bm);
-                
+                bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());   
                 return true;
             }catch (IOException ex){
             	return false;
             }
         }
-
         @Override
-        protected void onPostExecute(Boolean flag) {
-            super.onPostExecute(flag);
-            
-            
+        protected void onPostExecute(Boolean result) {
+        	if(result == true) memberImage.setImageBitmap(Bitmap.createScaledBitmap(bm, memberImage.getWidth(), memberImage.getHeight(), true));
+        	else memberImage.setImageResource(R.drawable.question_mark);
+        	super.onPostExecute(result);
         }
     }
     
-
 	public class doUploadImage extends AsyncTask<String, Void, Void>
 	{
 		@Override
@@ -291,7 +301,8 @@ public class MemberDetailFragment extends Fragment {
                 MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
                 reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-                reqEntity.addPart("uploadedfile", new FileBody(new File(params[0])));
+                reqEntity.addPart("uploadedfile", new org.apache.http.entity.mime.content.FileBody(new File(params[0])));
+                reqEntity.addTextBody("id", getArguments().getString(ARG_ITEM_ID));
                 reqEntity.setCharset(Charset.forName("UTF-8"));
 
                 postRequest.setEntity(reqEntity.build());

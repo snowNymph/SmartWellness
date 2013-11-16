@@ -22,7 +22,6 @@
                 android:id="@+id/member_image"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:src="@drawable/question_mark"
                 />
         </LinearLayout>
         <LinearLayout 
