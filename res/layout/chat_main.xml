@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Chatting_UT" >
+    
+    <LinearLayout
+        android:id="@+id/Chatting_bar"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/Chat_Text"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            />
+        <Button
+            android:id="@+id/Chat_B"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:text="전송"/>
+            
+    </LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_alignParentTop="true"
+	    android:layout_above="@id/Chatting_bar"
+	    android:orientation="vertical">
+	    <ListView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:background="#FFFFFFFF"
+	        android:id="@+id/Chat"
+	        />
+    </LinearLayout>
+</RelativeLayout>

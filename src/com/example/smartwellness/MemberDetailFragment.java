@@ -21,6 +21,8 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.RequestContent;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,10 +32,12 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +61,9 @@ public class MemberDetailFragment extends Fragment {
 
 	private String memberData;
 
+	public View mStatus;
+	public View mForm;
+	
 	public Bitmap bm;
     private ImageView memberImage;
 	public TabHost tabs;
@@ -76,8 +83,13 @@ public class MemberDetailFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_member_detail, container, false);
+		
+		mStatus = (View)rootView.findViewById(R.id.member_status);
+		mForm = (View)rootView.findViewById(R.id.member_detail);
+		showProgress(true);
 		(new MemberDetail()).execute();
 		(new GetMemberImage()).execute();
+		
 
 		tabs = (TabHost)rootView.findViewById(android.R.id.tabhost);
 		setTab();
@@ -85,26 +97,8 @@ public class MemberDetailFragment extends Fragment {
         memberImage = (ImageView)rootView.findViewById(R.id.member_image);
         memberImage.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {/*	
-				Calendar cal = Calendar.getInstance();
-				File file = new File(Environment.getExternalStorageDirectory(), (cal.getTimeInMillis() +".jpg"));
-				if(!file.exists()){
-					try{
-						file.createNewFile();
-					}catch(IOException e){
-						e.printStackTrace();
-					}
-				}else{
-					file.delete();
-					try{
-						file.createNewFile();
-					}catch(IOException e){
-						e.printStackTrace();
-					}
-				}
-		        capturedImageUri = Uri.fromFile(file);*/
+			public void onClick(View v) {
 		        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		        //intent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
 		        startActivityForResult(intent, CAMERA_REQUEST);
 			}
 		});
@@ -203,10 +197,6 @@ public class MemberDetailFragment extends Fragment {
 	            memberImage.setImageBitmap(bitmap);
 	            String[] uriParams = new String[10];
 	            uriParams[0] = getRealPathFromURI(capturedImageUri);
-	            //File f = new File();
-	            
-	            
-	            
 	            (new doUploadImage()).execute(uriParams);
 	        } catch (NullPointerException e) {
 	            e.printStackTrace();
@@ -284,9 +274,10 @@ public class MemberDetailFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(Boolean result) {
+        	super.onPostExecute(result);
         	if(result == true) memberImage.setImageBitmap(Bitmap.createScaledBitmap(bm, memberImage.getWidth(), memberImage.getHeight(), true));
         	else memberImage.setImageResource(R.drawable.question_mark);
-        	super.onPostExecute(result);
+        	showProgress(false);
         }
     }
     
@@ -327,6 +318,39 @@ public class MemberDetailFragment extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+		}
+	}
+	
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(
+					android.R.integer.config_shortAnimTime);
+
+			mStatus.setVisibility(View.VISIBLE);
+			mStatus.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mStatus.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			mForm.setVisibility(View.VISIBLE);
+			mForm.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mForm.setVisibility(show ? View.GONE
+									: View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mStatus.setVisibility(show ? View.VISIBLE : View.GONE);
+			mForm.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 }

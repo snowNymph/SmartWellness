@@ -1,6 +1,8 @@
 package com.example.smartwellness;
 
 //import CustomGoogleCalendar.RockCalendar;
+import com.example.sw_nonmember.Trainer_Chat_Select;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -126,6 +128,14 @@ public class MemberListActivity extends FragmentActivity implements
 		{
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.replace(R.id.member_detail_container, new TrainerSetting());
+			ft.addToBackStack(null);
+			ft.commit();
+			break;
+		}
+		case R.id.item4:
+		{
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.replace(R.id.member_detail_container, new Trainer_Chat_Select());
 			ft.addToBackStack(null);
 			ft.commit();
 			break;

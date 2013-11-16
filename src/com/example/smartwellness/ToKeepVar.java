@@ -9,6 +9,15 @@ public class ToKeepVar{
 	private String json;
 	private boolean mStatus;
 	private int mDeviceType;
+	private int mTrainerUid;
+	
+	public int getTrainerUID(){
+		return mTrainerUid;
+	}
+	
+	public void setTrainerUID(int uid){
+		mTrainerUid = uid;
+	}
 	
 	public String getData()
 	{
