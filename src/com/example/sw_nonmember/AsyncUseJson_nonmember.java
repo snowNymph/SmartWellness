@@ -16,6 +16,7 @@ public class AsyncUseJson_nonmember extends AsyncTask<HashMap<String,String>, Vo
 	int what;
 	int requestCode;
 	List<String> wantGap = new ArrayList<String>();
+	boolean mProgressFlag;
 	/*
 	public AsyncUseJson_nonmember(Context listener,int what,List<String> wantGap,int requestCode){
 		this.what = what;
@@ -25,13 +26,15 @@ public class AsyncUseJson_nonmember extends AsyncTask<HashMap<String,String>, Vo
 		this.requestCode = requestCode;
 	}
 	*/
-	public AsyncUseJson_nonmember(Fragment listener,int what,List<String> wantGap,int requestCode){
+	public AsyncUseJson_nonmember(Fragment listener,int what,List<String> wantGap,int requestCode, boolean progress_flag){
 		this.what = what;
 		this.mContext = listener;
 		this.listener = (ReadData)listener;
 		this.wantGap = wantGap;
 		this.requestCode = requestCode;
+		this.mProgressFlag = progress_flag;
 	}
+	
 	@Override
 	protected Void doInBackground(HashMap<String, String>... params) {
 		String C = null;
@@ -85,5 +88,7 @@ public class AsyncUseJson_nonmember extends AsyncTask<HashMap<String,String>, Vo
 		else{
 			listener.setData(HashList, requestCode);
 		}
+		if(mProgressFlag == true)
+			listener.setQuitSignal(requestCode);
 	}
 }

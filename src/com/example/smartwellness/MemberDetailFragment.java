@@ -32,6 +32,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -89,7 +90,6 @@ public class MemberDetailFragment extends Fragment {
 		showProgress(true);
 		(new MemberDetail()).execute();
 		(new GetMemberImage()).execute();
-		
 
 		tabs = (TabHost)rootView.findViewById(android.R.id.tabhost);
 		setTab();

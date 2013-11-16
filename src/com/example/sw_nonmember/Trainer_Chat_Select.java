@@ -3,15 +3,20 @@ package com.example.sw_nonmember;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 
 import com.example.smartwellness.MemberMission;
 import com.example.smartwellness.R;
 import com.example.smartwellness.ToKeepVar;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
@@ -34,24 +39,31 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 	String trainer_uid;
 	room_adapter adapter = new room_adapter();
 	List<String> Room = new ArrayList<String>();
+	View mChatSelectStatus;
+	View mChatSelectForm;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.chat_select, container, false);
+		
+		mChatSelectStatus = (View)rootView.findViewById(R.id.chat_select_status);
+		mChatSelectForm = (View)rootView.findViewById(R.id.chat_select_form);
+		showProgress(true);
+		
 		// input();
+		Room.clear();
 		ListView Lv = (ListView)rootView.findViewById(R.id.Chat_select);
 		Lv.setAdapter(adapter);
 		Lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				trainer_uid = list[arg2];
-				roomlist_re_arrange(trainer_uid);
+				member_uid = list[arg2];
+				roomlist_re_arrange(member_uid);
 			}
 		});
 		
@@ -61,7 +73,7 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 		a.put("field", "chat_p");
 		a.put("condition","uid=" + String.valueOf(ToKeepVar.getInstance().getTrainerUID()));
 		Wantgap.add("chat_p");
-		AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Select,Wantgap,-1);
+		final AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Select,Wantgap,-1, true);
 		ab.execute(a);
 		
 		return rootView;
@@ -69,20 +81,24 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 	
 	public void roomlist_re_arrange(String select){
 		String add = select;
+		boolean flag = false;
 		for(int i=0;i<list.length;i++){
 			if(list[i].compareTo(select) != 0){
 				add = add + "-" + list[i];
+				flag = true;
 			}
 		}
-		HashMap<String,String> a = new HashMap<String,String>();
-		List<String> Wantgap = new ArrayList<String>();
-		a.put("table", "member");
-		a.put("field", "chat_p");
-		a.put("data", "\""+add+"\"");
-		a.put("condition","uid="+member_uid);
-		a.put("overlap", "0");
-		AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Update,Wantgap,-2);
-		ab.execute(a);
+		if(flag == true){
+			HashMap<String,String> a = new HashMap<String,String>();
+			List<String> Wantgap = new ArrayList<String>();
+			a.put("table", "member");
+			a.put("field", "chat_p");
+			a.put("data", "\""+add+"\"");
+			a.put("condition","uid="+member_uid);
+			a.put("overlap", "0");
+			AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Update,Wantgap,-2, false);
+			ab.execute(a);
+		}
 	}
 	
 	@Override
@@ -122,7 +138,7 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 				a.put("field", "phone");
 				a.put("condition","uid="+list[params[0]]);
 				Wantgap.add("phone");
-				AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Select,Wantgap,params[0]);
+				AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Select,Wantgap,params[0], false);
 				ab.execute(a);
 			}
 			else{
@@ -169,5 +185,43 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 	@Override
 	public void NullData(int requestCode){
 		
+	}
+	
+	@Override
+	public void setQuitSignal(int requetsCode){
+		showProgress(false);
+	}
+	
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(
+					android.R.integer.config_shortAnimTime);
+
+			mChatSelectStatus.setVisibility(View.VISIBLE);
+			mChatSelectStatus.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mChatSelectStatus.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			mChatSelectForm.setVisibility(View.VISIBLE);
+			mChatSelectForm.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mChatSelectForm.setVisibility(show ? View.GONE
+									: View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mChatSelectStatus.setVisibility(show ? View.VISIBLE : View.GONE);
+			mChatSelectForm.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
 	}
 }

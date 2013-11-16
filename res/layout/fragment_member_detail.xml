@@ -1,5 +1,27 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MemberDetailFragment"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+        <LinearLayout
+        android:id="@+id/member_status"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone" 
+        android:background="#FFDCDCDD">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+    
+<LinearLayout 
     android:id="@+id/member_detail"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
@@ -8,7 +30,7 @@
     android:textIsSelectable="true"
     android:orientation="vertical"
     android:background="#FFDCDCDD"
-    tools:context=".MemberDetailFragment" >
+     >
 
     <LinearLayout 
         android:layout_width="match_parent"
@@ -275,3 +297,8 @@
                 </LinearLayout>
 	    </LinearLayout>
 </LinearLayout>
+    
+
+
+
+</FrameLayout>

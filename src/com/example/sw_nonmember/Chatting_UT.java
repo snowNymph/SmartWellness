@@ -7,11 +7,14 @@ import java.util.List;
 
 import com.example.smartwellness.R;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -39,6 +42,9 @@ public class Chatting_UT extends Fragment implements ReadData{
 	String trainer_uid;
 	int latest_chatting_uid = 0;
 	ListView lv;
+	View mChatMainStatus;
+	View mChatMainForm;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -47,7 +53,11 @@ public class Chatting_UT extends Fragment implements ReadData{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.chat_main, container, false);		
-		//Setting.
+		mChatMainStatus = (View)rootView.findViewById(R.id.chat_main_status);
+		mChatMainForm = (View)rootView.findViewById(R.id.chat_main_form);
+		showProgress(true);
+
+		//Setting.		
 		member_uid = getArguments().getString("member_uid");
 		trainer_uid = getArguments().getString("trainer_uid");
 		String types = getArguments().getString("Type");
@@ -79,7 +89,7 @@ public class Chatting_UT extends Fragment implements ReadData{
 				a.put("table", "chatting");
 				a.put("field", "member_uid,trainer_uid,message,m_type");
 				a.put("data",member_uid+","+trainer_uid+","+"\""+ text +"\","+ String.valueOf(type));
-				AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Chatting_UT.this,ReadData.Insert,Wantgap ,0);
+				AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Chatting_UT.this,ReadData.Insert,Wantgap ,0, false);
 				check = 1;
 				ab.execute(a);	
 			}
@@ -97,6 +107,7 @@ public class Chatting_UT extends Fragment implements ReadData{
 		
 		getItems gg = new getItems();
 		gg.execute();
+
 
 		return rootView;
 	}
@@ -177,8 +188,10 @@ public class Chatting_UT extends Fragment implements ReadData{
 		return view;
 	}
 	class getItems extends AsyncTask<Void,Void,Void>{
+		public Chatting_UT mTempContext;
 		protected Void doInBackground(Void... params) {
 			boolean alpha = true;
+			mTempContext = Chatting_UT.this;
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -198,13 +211,21 @@ public class Chatting_UT extends Fragment implements ReadData{
 				Wantgap.add("date");
 				Wantgap.add("m_type");
 				
-				AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Chatting_UT.this,ReadData.Select,Wantgap , 1);
+				AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(mTempContext,ReadData.Select,Wantgap , 1, false);
 				check = 1;
 				ab.execute(a);
 			}
 			return null;
 		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			if(isAdded())
+				showProgress(false);
+		}
 	}
+	
 	void check(){
 		getActivity().runOnUiThread(new Runnable() {
 	        public void run() {
@@ -291,5 +312,43 @@ public class Chatting_UT extends Fragment implements ReadData{
 		check = 0;
 		getItems gg = new getItems();
 		gg.execute();
+	}
+	
+	@Override
+	public void setQuitSignal(int requestCode){
+		
+	}
+	
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(
+					android.R.integer.config_shortAnimTime);
+
+			mChatMainStatus.setVisibility(View.VISIBLE);
+			mChatMainStatus.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mChatMainStatus.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			mChatMainForm.setVisibility(View.VISIBLE);
+			mChatMainForm.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mChatMainForm.setVisibility(show ? View.GONE
+									: View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mChatMainStatus.setVisibility(show ? View.VISIBLE : View.GONE);
+			mChatMainForm.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
 	}
 }

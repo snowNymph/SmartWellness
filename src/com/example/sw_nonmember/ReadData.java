@@ -9,4 +9,5 @@ public interface ReadData {
 	static int Update = 3;
 	void setData(List<HashMap<String,String>> HashList,int requestCode);
 	void NullData(int requestCode);
+	void setQuitSignal(int requestCode);
 }

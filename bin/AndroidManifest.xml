@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -92,6 +93,16 @@
         <activity
             android:name="bluetoothHDP.BluetoothHDPActivity"
             android:label="bluetooth_activity" >
+        </activity>
+        <activity 
+            android:name="com.example.sw_nonmember.Chatting_UT"
+            android:label="@string/title_activity_chat">
+        </activity>
+        <activity
+            android:name="com.example.sw_nonmember.Trainer_Chat_Select">
+        </activity>
+        <activity
+            android:name="com.example.sw_nonmember.SW_Nonmember">
         </activity>
 		<service android:name="bluetoothHDP.BluetoothHDPService" />
     </application>
