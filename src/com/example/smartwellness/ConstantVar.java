@@ -2,6 +2,7 @@ package com.example.smartwellness;
 
 public class ConstantVar {
 	public static final String URL = "http://61.43.139.69/";
+	public static final int FITNESS_UID = 4;
 	
 	public static final String LOGIN = "login.php";
 	public static final String SELECT = "select.php";

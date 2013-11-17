@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
+import com.example.smartwellness.ConstantVar;
 import com.example.smartwellness.MemberMission;
 import com.example.smartwellness.R;
 import com.example.smartwellness.ToKeepVar;
@@ -50,7 +51,7 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.chat_select, container, false);
-		
+		trainer_uid = String.valueOf(ToKeepVar.getInstance().getTrainerUID());
 		mChatSelectStatus = (View)rootView.findViewById(R.id.chat_select_status);
 		mChatSelectForm = (View)rootView.findViewById(R.id.chat_select_form);
 		showProgress(true);
@@ -63,22 +64,30 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				member_uid = list[arg2];
-				roomlist_re_arrange(member_uid);
+				//roomlist_re_arrange(member_uid);
+				Bundle arguments = new Bundle();
+				arguments.putString("member_uid", member_uid);
+				arguments.putString("trainer_uid", trainer_uid);
+				arguments.putString("Type", "Trainer");
+				Chatting_UT fragment = new Chatting_UT();
+				fragment.setArguments(arguments);
+				getFragmentManager().beginTransaction().replace(R.id.member_detail_container, fragment).addToBackStack(null).commit();
 			}
 		});
 		
 		HashMap<String,String> a = new HashMap<String,String>();
 		List<String> Wantgap = new ArrayList<String>();
-		a.put("table", "trainer");
-		a.put("field", "chat_p");
-		a.put("condition","uid=" + String.valueOf(ToKeepVar.getInstance().getTrainerUID()));
-		Wantgap.add("chat_p");
-		final AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Select,Wantgap,-1, true);
+		a.put("table", "chatting");
+		a.put("field", "member_uid");
+		a.put("condition","trainer_uid="+trainer_uid +" && fitness_uid=" + String.valueOf(ConstantVar.FITNESS_UID));
+		Wantgap.add("member_uid");
+		AsyncUseJson_nonmember ab = new AsyncUseJson_nonmember(Trainer_Chat_Select.this,ReadData.Select,Wantgap,-1, true);
 		ab.execute(a);
 		
 		return rootView;
 	}
 	
+	/*
 	public void roomlist_re_arrange(String select){
 		String add = select;
 		boolean flag = false;
@@ -100,23 +109,36 @@ public class Trainer_Chat_Select extends Fragment implements ReadData{
 			ab.execute(a);
 		}
 	}
-	
+	*/
+
 	@Override
 	public void setData(List<HashMap<String, String>> HashList,int requestCode) {
 		// requestCode == -2 일때는 roomlist_re_arrange();
 		if(requestCode == -1){
-			if(HashList.get(0).get("chat_p") == null){
-				Toast.makeText(getActivity().getBaseContext(), "입장하신 방이 없습니다.", Toast.LENGTH_SHORT).show();
+			boolean flag = false;
+			List<String> tmpList = new ArrayList<String>();
+			tmpList.add(HashList.get(0).get("member_uid"));
+			for(int i =0; i<HashList.size(); i++){
+				for(int j =0; j<tmpList.size(); j++){
+					if(tmpList.get(j).contains(HashList.get(i).get("member_uid")) == true){
+						flag = true;
+						break;
+					}
+					flag = false;
+				}
+				if(flag == false){
+					tmpList.add(HashList.get(i).get("member_uid"));
+					flag = true;
+				}
 			}
-			else{
-				list = HashList.get(0).get("chat_p").toString().split("-");
-				(new send()).execute(0);
-			}
+			list = new String[tmpList.size()];
+			tmpList.toArray(list);
+			(new send()).execute(0);
 		}
 		else if(requestCode == -2){
 			Bundle arguments = new Bundle();
 			arguments.putString("member_uid", member_uid);
-			arguments.putString("trainer_uid", String.valueOf(ToKeepVar.getInstance().getTrainerUID()));
+			arguments.putString("trainer_uid", trainer_uid);
 			arguments.putString("Type", "Trainer");
 			Chatting_UT fragment = new Chatting_UT();
 			fragment.setArguments(arguments);

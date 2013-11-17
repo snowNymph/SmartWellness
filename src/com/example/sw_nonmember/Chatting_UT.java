@@ -187,6 +187,7 @@ public class Chatting_UT extends Fragment implements ReadData{
 		}
 		return view;
 	}
+	
 	class getItems extends AsyncTask<Void,Void,Void>{
 		public Chatting_UT mTempContext;
 		protected Void doInBackground(Void... params) {
