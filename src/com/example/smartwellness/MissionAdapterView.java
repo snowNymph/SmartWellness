@@ -22,9 +22,9 @@ public class MissionAdapterView extends LinearLayout{
 		name = (TextView)findViewById(R.id.mission_name);
 		name.setText(input.get("name"));
 		number =(TextView)findViewById(R.id.mission_number);
-		number.setText(input.get("number")+"»∏");
+		number.setText(input.get("number")+"개수");
 		set = (TextView)findViewById(R.id.mission_set);	
-		set.setText(input.get("set")+"ºº∆Æ");	
+		set.setText(input.get("set")+"세트");	
 		text = (TextView)findViewById(R.id.mission_text);
 		text.setText(input.get("desc"));		
 		tools = (TextView)findViewById(R.id.mission_tools);

@@ -136,12 +136,12 @@ public class MissionAdd extends Activity{
 	void SpinnerSet(){
 		lkind = new ArrayList<String>();
 		ltool = new ArrayList<String>();
-		lkind.add("øÓµø∫Œ¿ß");
-		lkind.add("µÓ");
-		lkind.add("∞°Ωø");
-		lkind.add("∆»");
-		lkind.add("¥Ÿ∏Æ");
-		lkind.add("∫π±Ÿ");
+		lkind.add("가슴");
+		lkind.add("배");
+		lkind.add("다리");
+		lkind.add("등");
+		lkind.add("팔");
+		//lkind.add("");
 		
 		ltool.add("øÓµø±‚±∏");
 		ltool.add("∫•ƒ°«¡∑πΩ∫");

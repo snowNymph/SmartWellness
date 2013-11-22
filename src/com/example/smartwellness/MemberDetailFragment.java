@@ -218,12 +218,12 @@ public class MemberDetailFragment extends Fragment {
 		
 		ts = tabs.newTabSpec("vital");
 		ts.setContent(R.id.main_tab1_webview);
-		ts.setIndicator("ï¿½Ç°ï¿½");
+		ts.setIndicator("°Ç°­Á¤º¸");
 		tabs.addTab(ts);
 
 		ts = tabs.newTabSpec("exercise");
 		ts.setContent(R.id.main_tab2_webview);
-		ts.setIndicator("ï¿½îµ¿");
+		ts.setIndicator("¿îµ¿Á¤º¸");
 		tabs.addTab(ts);
 	}
 	

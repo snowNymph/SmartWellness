@@ -53,7 +53,7 @@ public class MemberAdd extends Fragment {
 				missionData.put("table", "member");
 				missionData.put("field", "trainer_uid,name,phone,sex,age,date");
 				missionData.put("data", ToKeepVar.getInstance().getData().toString() + ",\"" + params[0] 
-						+ "\"," +params[1] + ",\"" + radiobutton.getText().toString() + "\"," + params[2] + ",now()");
+						+ "\",\"" +params[1] + "\",\"" + radiobutton.getText().toString() + "\"," + params[2] + ",now()");
 				
 				JsonRequestPost missionInsert = new JsonRequestPost(missionData, ConstantVar.URL + ConstantVar.INSERT);
 				

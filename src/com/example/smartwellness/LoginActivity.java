@@ -205,8 +205,8 @@ public class LoginActivity extends Activity {
 			// TODO: attempt authentication against a network service.
 			HashMap<String,String> loginData = new HashMap<String,String>();
 			loginData.put("table", "trainer");
-			loginData.put("id", "test1@test.com");// mEmail);
-			loginData.put("pw", "test");//mPassword);
+			loginData.put("id", mEmail);// mEmail);
+			loginData.put("pw", mPassword);//mPassword);
 			JsonRequestPost loginPost = new JsonRequestPost(loginData, ConstantVar.URL + ConstantVar.LOGIN);
 			
 			loginPost.requestPost();
